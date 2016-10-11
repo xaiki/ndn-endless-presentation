@@ -1,0 +1,8 @@
+@import url("./Lato2OFLWeb/Lato/latofonts.css");
+@import url("./Lato2OFLWeb/Lato/latostyle.css");
+
+body {
+    font-family: "LatoWeb";
+    background-color: #424342; //f15a22;
+    color: #ffffff
+}

@@ -1,0 +1,37 @@
+#+TITLE: NDN@Endless
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_EXTRA_CSS: endless.css
+#+OPTIONS: num:nil toc:1
+#+REVEAL_MULTIPLEX_SOCKETIO_URL: http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js
+#+REVEAL_PLUGINS: (multiplex)
+
+* Plan
+** [[./svg/3.1-0.svg]]
+
+** [[./svg/3.1-1.svg]]
+** [[./svg/3.2-0.svg]]
+** [[./svg/3.2-1.svg]]
+
+* <2016-10-11 Tue> Meeting Questions
+** Performance of face.processEvents
+Timing 100ms face.processEvents for each packet makes it that we get a
+100-300ms lag between interest and data production for *each* 4k packet,
+it's extremely slow. I could make a scheduler to accelerate polling when
+transfering but there must be a better solution
+** MultiPath Smart or Lazy
+We want to get data from a couple of providers (Edge/HTTP, USB, NFD on
+Android + Edge App, local network), shouldn't we try to be smart about who
+'owns' the data (i.e. an interst to the Edge Producer will trigger Download,
+ that we'd need to cancel if we can find it quicker from another source)
+** Chunk/Packet Size
+On the first phase of the deployement we're going to keep our S3/HTTP
+infrastructure basically pristine. We need, at the edge of the NDN network,
+to transform that data, transform the files hosted on HTTP in a steram of
+NDN packets. As we care *a lot* about not downloading things twice i need a
+mechanism to make sure that we get the right bytes, i could trust HTTP
+range, but we all know that's not good enough. How'd you implement chunking
+at a 15Mb size-range (i think it was prooven a 'good choice' for torrents) ?
+** Crypto and Signing
+Corollary to the previous question, is there any established mechanism to
+pre-sign chunks of data and fetch them from HTTP
+

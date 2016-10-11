@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>NDN@Endless</title>
+<meta name="author" content="(Niv Sardi)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/moon.css" id="theme"/>
+
+<link rel="stylesheet" href="endless.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">NDN@Endless</h1><h2 class="author">Niv Sardi</h2><p class="date">Created: 2016-10-11 Tue 11:29</p>
+</section>
+<section id="table-of-contents">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-orgheadline5">Plan</a></li>
+<li><a href="#/slide-orgheadline9"><span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-11 Tue&gt; </span></span> Meeting Questions</a></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<section id="slide-orgheadline5">
+<h2 id="orgheadline5">Plan</h2>
+<div class="outline-text-2" id="text-orgheadline5">
+</div></section>
+<section id="slide-orgheadline1">
+<h3 id="orgheadline1"><object type="image/svg+xml" data="./svg/3.1-0.svg" >
+Sorry, your browser does not support SVG.</object></h3>
+
+</section>
+<section id="slide-orgheadline2">
+<h3 id="orgheadline2"><object type="image/svg+xml" data="./svg/3.1-1.svg" >
+Sorry, your browser does not support SVG.</object></h3>
+</section>
+<section id="slide-orgheadline3">
+<h3 id="orgheadline3"><object type="image/svg+xml" data="./svg/3.2-0.svg" >
+Sorry, your browser does not support SVG.</object></h3>
+</section>
+<section id="slide-orgheadline4">
+<h3 id="orgheadline4"><object type="image/svg+xml" data="./svg/3.2-1.svg" >
+Sorry, your browser does not support SVG.</object></h3>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline9">
+<h2 id="orgheadline9"><span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-11 Tue&gt; </span></span> Meeting Questions</h2>
+<div class="outline-text-2" id="text-orgheadline9">
+</div></section>
+<section id="slide-orgheadline6">
+<h3 id="orgheadline6">Performance</h3>
+<p>
+Timing face.processEvents for each packet makes it that we get a 200-300ms
+lag between interest and data production for <b>each</b> 4k packet, it's
+extremely slow. I could make a scheduler to accelerate polling when
+transfering but there must be a better solution
+</p>
+</section>
+<section id="slide-orgheadline7">
+<h3 id="orgheadline7">Chunk/Packet Size</h3>
+<p>
+On the first phase of the deployement we're going to keep our S3/HTTP
+infrastructure basically pristine. We need, at the edge of the NDN network,
+to transform that data, transform the files hosted on HTTP in a steram of
+NDN packets. As we care <b>a lot</b> about not downloading things twice i need a
+mechanism to make sure that we get the right bytes, i could trust HTTP
+range, but we all know that's not good enough. How'd you implement chunking
+at a 15Mb size-range (i think it was prooven a 'good choice' for torrents) ?
+</p>
+</section>
+<section id="slide-orgheadline8">
+<h3 id="orgheadline8">Crypto and Signing</h3>
+<p>
+Corollary to the previous question, is there any established mechanism to
+pre-sign chunks of data and fetch them from HTTP
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/multiplex/master.js', async: true }]
+});
+</script>
+</body>
+</html>
